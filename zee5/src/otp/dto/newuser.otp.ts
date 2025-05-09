@@ -1,4 +1,4 @@
-export class NewUserOtpDto{
-    email:string
-    code:number
+export class NewUserOtpDto {
+  email: string;
+  code: number;
 }
