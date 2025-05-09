@@ -1,4 +1,4 @@
-export interface otp{
-    otp:string,
-    phoneNumber:number;
+export interface otp {
+  otp: string;
+  phoneNumber: number;
 }
