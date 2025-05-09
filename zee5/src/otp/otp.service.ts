@@ -10,7 +10,7 @@ import { Code } from 'mongodb';
 export class OtpService {
   constructor(
     @InjectModel('user') private userModel: Model<any>,
-    @InjectModel('NewUserOtp') private otpModel: Model<any>,
+    @InjectModel('NewUserOtp') private otpModel: Model<NewUserOtpDto>,
     private readonly userService: UserService,
   ) {}
 
@@ -20,7 +20,7 @@ export class OtpService {
     port: 587,
     auth: {
       user: 'dhoniroman5@gmail.com',
-      pass: 'yvesctqsgipkfmyk',
+      pass: '',
     },
   });
 
@@ -50,11 +50,20 @@ export class OtpService {
       );
       console.log('from update Module ', update);
     } else {
-      let newUserCredential = new NewUserOtpDto();
-      newUserCredential.email = email;
-      newUserCredential.code = otp;
+      // let newUserCredential = new NewUserOtpDto();
+      // newUserCredential.email = email;
+      // newUserCredential.code = otp;
+    let newUserCredential:NewUserOtpDto = {
+      email:email,
+      code:otp
+    }
       let newUser = await this.otpModel.create(newUserCredential);
       console.log(newUser);
+      setTimeout(async () => {
+        let expired = await this.otpModel.updateOne({ email: email }, { $set: { code: null } }).exec();
+        let verified = await this.otpModel.updateOne({ email: email }, { $set: { verified: false } }).exec();
+        console.log('Executed', expired, verified, email);
+      }, 4000);
     }
 
     console.log(otp);
@@ -82,11 +91,7 @@ export class OtpService {
     if (!user) {
       let newUser = await this.otpModel.findOne({ email: email });
 
-      setTimeout(async () => {
-        let expired = await this.otpModel.updateOne({ email: email }, { $set: { code: null } }).exec();
-        let verified = await this.userModel.updateOne({ email: email }, { $set: { verified: false } }).exec();
-        console.log('Executed', expired, verified, email);
-      }, 120000);
+     
   
 
       console.log(newUser)
