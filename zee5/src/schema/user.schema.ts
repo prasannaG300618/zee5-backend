@@ -7,11 +7,11 @@ export type user = userSchema & Document<Types.ObjectId>;
 export  class userSchema{
     @Prop()
     age: Number;
-    @Prop({required:false})
+    @Prop({default:0,required:false})
     phoneNumber: Number
     @Prop({required:false})
     gender:String
-    @Prop({default:"Email not given"})
+    @Prop({default:"Email not given", type:String})
     email:string
     @Prop({required:false})
     otp:Number

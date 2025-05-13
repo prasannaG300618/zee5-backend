@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards , Res} from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
 @Controller()
@@ -13,7 +13,12 @@ async googleAuth(@Req() req){
 
 @Get("auth/google/callback")
 @UseGuards(AuthGuard('google'))
-googleAuthRedirect(@Req() req){
-  return this.appService.googleLogin(req)
+googleAuthRedirect(@Req() req, @Res() res){
+  const jwt: string = req.user.jwt;
+  if (jwt)
+      res.redirect('http://localhost:4200/dashboard' +"?token="+ jwt);
+  else 
+      res.redirect('http://localhost:4200');
+  // return this.appService.googleLogin(req)
 }
 }

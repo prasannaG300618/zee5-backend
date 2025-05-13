@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { OtpTwilioService } from 'src/otp-twilio/otp-twilio.service';
 import { otp } from 'src/register/dto/otp.dto';
 import { OtpService } from 'src/otp/otp.service';
-import { env } from 'process';
 
 @Controller('auth')
 export class AuthController {
@@ -19,7 +18,7 @@ export class AuthController {
            return this.authService.generateToken(data)
         }else{
             console.log("OTP is invalid")
-            return "OTP is in Valid"
+            return {accessToken:"OTP is in Valid"}
         }
     }
 
@@ -38,8 +37,7 @@ export class AuthController {
     //verification
     @Get("validate")
     validateJWT(){
-        console.log(process.env.local)
-        return "User Token Verified"
+        return ("User Token Verified")
     }
 
     @Get()
