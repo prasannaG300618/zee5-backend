@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { registerDto } from './dto/register.dto';
 import { RegisterService } from './register.service';
+
 
 @Controller('register')
 export class RegisterController {
@@ -10,7 +11,7 @@ export class RegisterController {
     return 'Registered';
   }
   @Post()
-  display(@Body() data: registerDto) {
+  display(@Body() data: registerDto): any {
     return this.registerService.register(data);
   }
 }
