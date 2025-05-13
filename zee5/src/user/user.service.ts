@@ -4,12 +4,15 @@ import { Model } from 'mongoose';
 @Injectable()
 export class UserService {
     constructor(@InjectModel("user") private userModel: Model<any>) {}
-    async findUser(credential:string|number){
-        console.log(credential)
+    async findUser(credential:string){
+        let number = parseInt(credential)
+        console.log(number)
         let value:any
-        if(typeof credential === "number"){
+        if(number){
+            console.log("Number")
            value = await this.userModel.findOne({phoneNumber:credential}).exec()
-        }else if(typeof credential == "string"){
+        }else{
+            console.log("Email")
             value = await this.userModel.findOne({email:credential}).exec()
         }
         // let value = await this.userModel.findOne({$or:[ { phoneNumber:credential as number },{ email: credential as string}] }).exec()   

@@ -4,9 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from 'src/schema/user.schema';
 import { GoogleAuthStrategy} from './register.google.statergy';
 import { RegisterController } from './register.controller';
+import { AuthService } from 'src/auth/auth.service';
+import { AuthModule } from 'src/auth/auth.module';
 @Module({
   providers: [RegisterService, GoogleAuthStrategy],
-  imports: [MongooseModule.forFeature([{ name:"user" , schema: UserSchema }])],
+  imports: [MongooseModule.forFeature([{ name:"user" , schema: UserSchema }]), AuthModule],
   controllers:[RegisterController],
   exports: [RegisterService],
 })
